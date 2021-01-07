@@ -1,0 +1,64 @@
+SELECT COUNT (*) AS "C10"
+FROM T_FACTURE f
+INNER JOIN t_lignevente lv on f.t_facture_id = lv.t_facture_id
+INNER JOIN t_produit p on lv.t_produit_id = p.t_produit_id
+INNER JOIN t_delphi_classifatc dclass on p.t_delphi_classifatc_id = dclass.t_delphi_classifatc_id
+INNER JOIN t_assureayantdroit ass on f.t_client_id = ass.t_aad_id
+WHERE f.DATE_EXECUTION BETWEEN to_date('01/09/2020 00:00:00', 'DD/MM/YYYY HH24:MI:SS') AND to_date('30/09/2020 23:59:59', 'DD/MM/YYYY HH24:MI:SS')
+AND ass.datenaissance BETWEEN to_date('22/10/1940 00:00:00', 'DD/MM/YYYY HH24:MI:SS') AND to_date('22/10/1970 00:00:00', 'DD/MM/YYYY HH24:MI:SS')
+AND dclass.code like 'C10%';
+
+RESULT ==> 325
+
+
+SELECT COUNT (*) AS "C10 met A10"
+FROM T_FACTURE f
+INNER JOIN t_lignevente lv on f.t_facture_id = lv.t_facture_id
+INNER JOIN t_produit p on lv.t_produit_id = p.t_produit_id
+INNER JOIN t_delphi_classifatc dclass on p.t_delphi_classifatc_id = dclass.t_delphi_classifatc_id
+INNER JOIN t_assureayantdroit ass on f.t_client_id = ass.t_aad_id
+WHERE f.DATE_EXECUTION BETWEEN to_date('01/09/2020 00:00:00', 'DD/MM/YYYY HH24:MI:SS') AND to_date('30/09/2020 23:59:59', 'DD/MM/YYYY HH24:MI:SS')
+AND ass.t_aad_id IN
+    (select t_aad_id 
+    from t_assureayantdroit ass
+    INNER JOIN t_facture f on ass.t_aad_id = f.t_client_id
+    INNER JOIN t_lignevente lv on f.t_facture_id = lv.t_facture_id
+    INNER JOIN t_produit p on lv.t_produit_id = p.t_produit_id
+    INNER JOIN t_delphi_classifatc dclass on p.t_delphi_classifatc_id = dclass.t_delphi_classifatc_id
+    WHERE f.DATE_EXECUTION BETWEEN to_date('01/03/2020 00:00:00', 'DD/MM/YYYY HH24:MI:SS') AND to_date('30/09/2020 23:59:59', 'DD/MM/YYYY HH24:MI:SS')
+    AND dclass.code like 'A10%')
+AND ass.datenaissance BETWEEN to_date('22/10/1940 00:00:00', 'DD/MM/YYYY HH24:MI:SS') AND to_date('22/10/1970 00:00:00', 'DD/MM/YYYY HH24:MI:SS')
+AND dclass.code like 'C10%';
+
+RESULT ==> 92
+
+SELECT COUNT (*) AS "C10 met A10"
+FROM T_FACTURE f
+INNER JOIN t_lignevente lv on f.t_facture_id = lv.t_facture_id
+INNER JOIN t_produit p on lv.t_produit_id = p.t_produit_id
+INNER JOIN t_delphi_classifatc dclass on p.t_delphi_classifatc_id = dclass.t_delphi_classifatc_id
+INNER JOIN t_assureayantdroit ass on f.t_client_id = ass.t_aad_id
+WHERE f.DATE_EXECUTION BETWEEN to_date('01/09/2020 00:00:00', 'DD/MM/YYYY HH24:MI:SS') AND to_date('30/09/2020 23:59:59', 'DD/MM/YYYY HH24:MI:SS')
+AND ass.t_aad_id IN
+    (select t_aad_id 
+    from t_assureayantdroit ass
+    WHERE f.DATE_EXECUTION BETWEEN to_date('01/03/2020 00:00:00', 'DD/MM/YYYY HH24:MI:SS') AND to_date('30/09/2020 23:59:59', 'DD/MM/YYYY HH24:MI:SS')
+    AND dclass.code like 'A10%')
+AND ass.datenaissance BETWEEN to_date('22/10/1940 00:00:00', 'DD/MM/YYYY HH24:MI:SS') AND to_date('22/10/1970 00:00:00', 'DD/MM/YYYY HH24:MI:SS')
+AND dclass.code like 'C10%';
+
+RESULT ==> 0
+
+
+
+
+
+SELECT COUNT (*) AS "C10"
+FROM t_assureayantdroit ass
+INNER JOIN t_facture f on  ass.t_aad_id = f.t_client_id
+INNER JOIN t_lignevente lv on f.t_facture_id = lv.t_facture_id
+INNER JOIN t_produit p on lv.t_produit_id = p.t_produit_id
+INNER JOIN t_delphi_classifatc dclass on p.t_delphi_classifatc_id = dclass.t_delphi_classifatc_id
+WHERE f.DATE_EXECUTION BETWEEN to_date('01/09/2020 00:00:00', 'DD/MM/YYYY HH24:MI:SS') AND to_date('30/09/2020 23:59:59', 'DD/MM/YYYY HH24:MI:SS')
+AND ass.datenaissance BETWEEN to_date('22/10/1940 00:00:00', 'DD/MM/YYYY HH24:MI:SS') AND to_date('22/10/1970 00:00:00', 'DD/MM/YYYY HH24:MI:SS')
+AND dclass.code like 'C10%';
